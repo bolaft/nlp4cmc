@@ -1,0 +1,247 @@
+
+%------------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Automatic processing of online conversations (forum, emails) 
+% about information or assistance needs 
+is a highly important issue for the industrial and the scientific communities which care to improve existing question/answering systems, identify emotions or intentions in customer requests or reviews, detect messages containing requests for action or unsolved severe problems\ldots
+%
+%L'analyse automatique des conversations écrites en ligne asynchrones (e.g. forum, courriel) portant des demandes d'information (e.g. dépannage et assistance) constituent un fort enjeu scientifique et industriel : amélioration des systèmes de question/réponse actuels, détection de revues négatives de produits par des clients, identification de problèmes sévères non-résolus... 
+%
+%2010_gupta_W10-0202_email-Emotion-Detection-in-Email-Customer-Care
+%2012_vinodkumar_email_Annotations-for-Power-Relations-on-Email-Threads
+%2010_kim-W10-0507_modeling-social-and-content-dynamics-in-discussion-forum
+%2012_qu_E12-1037_recommendation-prediction-of-user-interest-in-forum
+%2013_chen_N13-1124_Identifying-Intention-Posts-in-Discussion-Forums
+%2011_marin_W11-0706_detecting-forum-authority-claims
+%2010_wang_P10-1027_recommendation-in-forum-blog
+%2009_Stavrianou_asonam_Definition and Measures of an Opinion Model for Mining Forums
+%2009_arora_N09-2010_Identifying Types of Claims in Online Customer Reviews.pdf
+%
+%2013_ott_Negative Deceptive Opinion Spam
+%
+%2011_qu_I11-1164_finding-problem-solving-threads-in-forum
+%2010_lampert_naacl_Detecting Emails Containing Requests for Action
+%
+%Ce sujet propose de travailler sur la tâche de segmentation des courriels en français dans des discussions portant sur des demandes d'information. Ce travail vise à soutenir une analyse automatique des messages en DA.
+%
+%Les travaux existants se fondent généralement sur une pré-annotation des messages en actes du dialogue (\textit{DA}). Les \textit{DA} décrivent les fonctions communicatives portées dans chaque message (e.g. question, réponse, remerciement...) Austin FIXME. Kim FIXME proposent une liste d'actes spécifiques à la description des messages au sein de forums.
+%Jusqu'à présent la majorité des travaux ont modélisé les discussions au niveau de leurs messages en les décrivant su
+
+In most works, conversation interactions between the participants are modeled in terms of dialogue acts (DA) \cite{austin:1970}. The DAs describe the communicative function conveyed by each text utterance  (e.g.~question, answer, greeting,\ldots).
+%
+In this paper, we address the problem of rhetorically segmenting the new content parts of messages in online asynchronous discussions. 
+The process aims at supporting the analysis of messages in terms of DA.
+We pay special attention to the processing of electronic mails.
+
+%La majorité des travaux modélisent les interactions entre intervenants en termes d'\textit{actes de dialogue} (DA) \cite{austin:1970}. Les DAs correspondent aux fonctions communicatives portées par chaque énoncé d'un texte (e.g. question, réponse, remerciement...). 
+% La théorie des actes du dialogue \cite{austin:1970} propose de décrire les énoncés en termes des fonctions communicatives portées par chacun d'eux (e.g. question, réponse, remerciement...). 
+%
+The main trend in automatic DA recognition consists in using supervised learning algorithms to predict the DA conveyed by a sentence or a message \cite{joty:2013:sigdial}.
+% L'approche dominante en reconnaissance automatique de DA consiste en l'usage d'algorithmes de classification supervisée \cite{joty:2013:sigdial} pour déterminer l'acte porté par une phrase ou un message. 
+%
+The hypothesized message segmentation results from the global analysis of these individual predictions over each sentence.
+%Le découpage des messages découle alors des résultats d'analyse.
+%
+A first remark on this paradigm is that it is not realistic to use in the context of multi-domain and multimodal processing because it requires the building of training data which is a very substantial and time-consuming task.
+%Une première critique de ce paradigme est que sa mise en oeuvre est laborieuse et coûteuse en temps d'annotation pour construire des données d'entraînement, ce qui n'est pas réaliste en contexte de traitement multi-domaine voire multi-modal.
+%
+A second remark is that the model does not have a fine-grained representation of the message structure or the relations between messages. Considering such characteristics could drastically improve the systems % for example
+%(e.g.~
+to allow to focus on specific text parts or to filter out less relevant ones. %). 
+% Une seconde critique est que dans ce contexte, la connaissance de la structure des messages permettrait aux applications susvisées de se focaliser sur des parties spécifiques et filtrer les passages moins pertinents. 
+Indeed, apart from the closing formula, a message may for example be made of several distinct information requests, the description of an unsuccessful procedure, the quote of third-party messages\ldots
+% En effet, outre des formules de politesse, un message peut compter par exemple plusieurs expressions de besoin, décrire une procédure infructueuse et citer des portions de messages tiers. 
+% faire référence à plusieurs contenus exprimés par différentes contributions tierces
+
+So far, few works address the problem of message segmentation.
+\cite{lampert:2009:emnlp} propose to segment emails in prototypical zones such as the author's contribution, quotes of original messages, the signature, the opening and closing formulas. 
+In comparison, we focus on the segmentation of the author's contribution (what we call the new content part).
+\cite{joty:2013:jair} identifies %topical segments of sentences which consist in 
+clusters of topically related sentences through the multiple messages of a thread, without distinguishing email and forum messages. Apart from the topical aspect, our problem differs because we are only interested in the cohesion between sentences in nearby fragments and % but
+ not on distant sentences.
+% . In our approach we are more interested by rhetorically motivated segments.
+%De par sa robustesse, cette dernière approche peut servir de base de comparaison.
+%Or, peu de travaux se sont penchés sur la tâche de segmentation des courriels en tant que telle. Les rares travaux ne concernent pas le découpage en DA. \cite{lampert:2009:emnlp} s'intéressent à découper les courriels en des zones prototypiques telles que la contribution de l'auteur, les reprises de messages tiers, la signature et les formules d'appel et de clôture... \cite{joty:2013:jair} identifient des segments thématiques. De par sa robustesse, cette dernière approche peut servir de base de comparaison.
+
+
+Despite the drawbacks mentioned above, a supervised approach remains %generally 
+the most efficient and reliable method to solve classification problems in Natural Language Processing. 
+% 
+Our aim is to train a system to detect the segment boundaries, %; in other words 
+i.e. to determine, through a classification approach, if a given sentence starts, ends or continues a segment.
+
+\begin{figure}
+\begin{minipage}{.63\textwidth}
+%\begin{multicols}{2}[]
+%\begin{multicols}{1}[]
+    %    \centering
+\fbox {
+    \parbox{\linewidth}{
+        \begin{subfigure}[b]{0.9\textwidth}
+\small
+%\footnotesize
+  [Hi!]$^{S1}$\vspace{0.1cm}
+
+[I got my ubuntu cds today and i'm really impressed.]$^{S2}$ [My\\ \ 
+friends like them and my teachers too (i'm a student).]$^{S3}$ \\ \ 
+[It's really funny to see, how people like ubuntu and start feeling geek\\ \ 
+and blaming microsoft when they use it.]$^{S4}$\vspace{0.1cm}
+
+[Unfortunately everyone wants an ubuntu cd, so can i download the cd\\ \ 
+covers anywhere or an 'official document' which i can attach to\\ \ 
+self-burned cds?]$^{S5}$\vspace{0.1cm}
+
+[I searched the entire web site but found nothing.]$^{S6}$ [Thanks in advance.]$^{S7}$\vspace{0.1cm}
+
+[John]$^{S8}$
+                \caption{Original message.}
+                \label{fig:exampleSource}
+        \end{subfigure}%
+}}
+\vspace{0.2cm}
+\\
+       % ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+\fbox {
+    \parbox{\linewidth}{
+        \begin{subfigure}[b]{0.9\textwidth}
+\small
+%\footnotesize
+%[On Sun, 04 Dec 2005 15:45:13 -0600, John Doe\\
+[On Sun, 04 Dec 2005, John Doe 
+%On Sun, 05 Dec 2004 16:48:14 -0600, Rich Duzenbury
+%<rduz-ubuntu@theduz.com> wrote:
+<john@doe.com> wrote:]$^{R1}$\vspace{0.1cm}
+
+> [I got my ubuntu cds today and i'm really impressed.]$^{R2}$ [My\\ \ 
+> friends like them and my teachers too (i'm a student).]$^{R3}$\\ \ 
+> [It's really funny to see, how people like ubuntu and start feeling geek\\ \ 
+> and blaming microsoft when they use it.]$^{R4}$\vspace{0.1cm}
+
+[Rock!]$^{R5}$\vspace{0.1cm}
+
+> [Unfortunately everyone wants an ubuntu cd, so can i download the cd\\ \ 
+> covers anywhere or an 'official document' which i can attach to\\ \ 
+> self-burned cds?]$^{R6}$\vspace{0.1cm}
+
+[We don't have any for the warty release, but we will have them for hoary, %\\ \ 
+because quite a few people have asked. :-)]$^{R7}$\vspace{0.1cm}
+
+[Bob.]$^{R8}$ %\vspace{0.1cm}
+%Jon.
+%[P.S.]$^{R11}$ [This is a major sticking point for ubuntu and Debian acceptance\\
+%on mission critical kit which should be addressed.]$^{R12}$ [It's not too tricky\\
+%to boot and initrd off a separate boot partition.]$^{R13}$\vspace{0.1cm}
+               % \includegraphics[width=\textwidth]{tiger}
+                \caption{Reply message.}
+                \label{fig:exampleReply}
+        \end{subfigure}
+}}
+%\end{multicols}
+%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+%          %(or a blank line to force the subfigure onto a new line)
+%        \begin{subfigure}[b]{0.4\textwidth}
+%\begin{tabular}{*{2}{|l}|c|}
+%\toprule
+%\textbf{Source} & \textbf{Reply} & \textbf{Label}\\
+%	\midrule
+%S1  & & \\
+%    & R1 & \\
+%\textit{S2}  & > \textit{R2}& Start\\
+%\textit{S3}  & > \textit{R3}& Inside\\
+%\textit{S4}  & > \textit{R4}& End\\
+%    & R5 & \\
+%    & R6 & \\
+%    & R7 & \\
+%\textit{S5}  & > \textit{R8} & Start \& End\\
+%    & R9 & \\
+%%    & R10 & \\
+%    & [...] & \\
+%S7    &  & \\ \ 
+%[...] \    &  & \\
+%	\bottomrule
+%\end{tabular}
+%               % \includegraphics[width=\textwidth]{mouse}
+%                \caption{A mouse}
+%                \label{fig:mouse}
+%        \end{subfigure}
+        \caption{An original message and its reply (\textit{ubuntu-users} email archive). Sentences have been tagged to facilitate the discussion. %The original layout has been slightly adapted to fit the document.
+%Examples of a source message and its reply based on the \textit{ubuntu-users} email archive. Pseudo-sentences have been marked to facilitate the discussion.
+        }\label{fig:exampleSourCeReplyMessage}
+%\end{multicols}
+\end{minipage}
+\hfill
+\begin{minipage}{.3\textwidth}
+\small\centering
+\begin{tabular}{*{2}{|l}|c|}
+\toprule
+\textbf{Original} & \textbf{Reply} & \textbf{Label}\\
+	\midrule
+S1  & & \\
+    & R1 & \\
+\textit{S2}  & > \textit{R2}& \texttt{Start}\\
+\textit{S3}  & > \textit{R3}& \texttt{Inside}\\
+\textit{S4}  & > \textit{R4}& \texttt{End}\\
+    & R5 & \\
+\textit{S5}  & > \textit{R6} & \texttt{Start\&End}\\
+    & R7 & \\
+%    & R11 & \\
+    & [...] & \\
+S6    &  & \\ \ 
+[...] \    &  & \\
+	\bottomrule
+\end{tabular}
+\caption{Alignment of the sentences from the original and reply messages shown in Figure~\ref{fig:exampleSourCeReplyMessage} and labels inferred from the re-use of the original message text. Labels are associated to the original sentences.}
+\label{fig:exampleSegmentationLabels}
+\end{minipage}
+\end{figure}
+%
+The originality of the proposed approach is to avoid manually annotating the training data and instead to exploit the human computational efforts dedicated to a similar task in a different context of production~\cite{ahn:2006:computer}. 
+% 
+As recommended by the \textit{Netiquette}\footnote{Set of guidelines for Network Etiquette (\textit{Netiquette}) when using network communication or information services RFC1855. %\url{http://tools.ietf.org/html/rfc1855}.
+}, when replying to a message (email or forum post), the writer should 
+ ``summarize the original message at the top of its reply, %the message, 
+or include (or "quote") just enough text of the original to give a context, in order to make sure readers understand when they start to read the response\footnote{It is true that some email software clients do not conform to the recommendations of Netiquette and that some online participants are less sensitive to arguments about posting style (many writers reply above  the original message).
+%In top-posting style, the original message is included verbatim, with the reply above it. 
+We assume that there are enough messages with inline replying available to build our training data.}.''  As a corollary, the writer should ``edit out all the irrelevant material.''
+%
+% include enough original material to be understood but no more.
+Our idea is to use this effort, in particular when the writer replies to a message by inserting his response or comment just after the quoted text appropriate to his intervention. 
+%
+This posting style is called \textit{interleaved} or \textit{inline replying}.
+%L'originalité de l'approche sera de ne pas construire manuellement le corpus d'entraînement mais d'exploiter le temps cognitif investi par d'autres pour une tâche supposée similaire \cite{ahn:2006:computer}. Cela lui vaut le qualificatif de \textit{paresseuse}.
+%L'idée est d'exploiter le travail de découpage réalisé par un intervenant lorsqu'il répond à l'intérieur d'un message (\textit{inline replying}).
+%
+%
+The so built segmentation model should be usable for any posting styles by applying it only on new content parts.
+%
+%
+%~\ref{fig:exampleSourCeReplyMessage} 
+Figure~\ref{fig:exampleSource} shows an example of an \textit{original} %\footnote{By \textit{source} message, we refer to a message which is replied to. By \textit{original} message, we loosely mean a source message. With this term, we want to point out more precisely the author's contributions.} 
+message and, Figure~\ref{fig:exampleReply}, one of its \textit{reply}.
+We can see that the reply message re-uses only four selected sentences from the original message; namely $S2$, $S3$, $S4$ and $S5$ which respectively correspond to sentences  $R2$, $R3$, $R4$ and $R6$ in the reply message.
+The author of the reply message deliberately discarded the remaining of the original message.
+%
+The segment build up by sentences $S2$, $S3$, $S4$ and the one by the single sentence $S5$ can respectively be associated with two acts : a comment and a question.
+% Some mail clients, in particular some configurations of Microsoft Outlook, 
+%some email software clients are not standards-compliant and 
+%some email software clients do not conform to the recommendations of Netiquette.
+%Some online participants are less sensitive to arguments about posting style. % (
+%Newer online participants, especially those with limited experience of Usenet, tend to be less sensitive to arguments about posting style.
+
+%FIXME When a message is replied to in e-mail, Internet forums, or Usenet, the original can often be included, or "quoted", in a variety of different posting styles.
+%
+%The main options are {\em interleaved posting} (also called {\em inline replying}, in which the different parts of the reply follow the relevant parts of the original post), \textit{bottom-posting} (in which the reply follows the quote) or \textit{top-posting} (in which the reply precedes the quoted original message). 
+
+%We use then a supervised approach to build models of the segmentation.
+
+
+In Section~\ref{sec:buildingannotatedcorpusofsegmentedonlinemessageatnocost}, we explain our approach for building an annotated corpus of segmented online messages at no cost. 
+In Section~\ref{sec:buildingTheSegmenter}, we describe the  system and the features we use to model the segmentation. 
+After presenting our experimental framework in Section~\ref{sec:experimentalframework}, we report some evaluations for the segmentation task in Section~\ref{sec:experiments}. 
+Finally, we discuss our approach in comparison to other works in Section~\ref{sec:relatedWork}.
+
+
+

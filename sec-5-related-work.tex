@@ -1,0 +1,53 @@
+%------------------------------------------------------------------------------
+\section{Related work}
+\label{sec:relatedWork}
+
+Three research areas are directly related to our study:
+a) collaborative approaches for acquiring
+annotated corpora, b) detection of email structure, and c) sentence alignment.
+%
+%We can set our approach in the trend of the collaborative approaches for acquiring annotated corpora such as the Game With A Purpose (GWAP) \cite{ahn:2006:computer} or the paid-for crowdsourcing \cite{fort:2011:cl}.
+In the \cite{wang:2013:lre}'s taxonomy of the collaborative approaches for acquiring annotated corpora, our approach could be related to the \textit{Wisdom of the Crowds} (WotC) genre where motivators are altruism or prestige to collaborate for the building of a public resource.
+As a major difference, we did not initiate the annotation process and consequently we did not define annotation guidelines, design tasks or develop tools for annotating which are always problematic questions.
+We have just rerouted \textit{a posteriori} the result of an existing task which was performed in a distinct context.
+In our case the burning issue is to determine the adequacy of our segmentation task.
+Our work is motivated by the need to identify important snippets of information in messages for applications such as being able to determine whether all the aspects of a customer request were fully considered.
+We argue that even if it is not always obvious to tag topically or rhetorically a segment, the fact that it was a human who actually segmented the message ensures its quality.
+%
+% is another major genre for crowdsourcing. WotC deployments allow members of the general public to collaborate to build a public resource, to predict event outcomes or to estimate difficulty to guess quantities. Wikipedia, the most well-known WotC instance, has different motivators that have changed over time. Initially, altruism and indirect benefit were factors: people contributed articles to Wikipedia not only to help others but also to build a resource that would ultimately help themselves. As Wikipedia matured, the prestige of being a regular contributor or editor became a motivator (Suh et al. 2009).
+%
+We think that our approach can also be used for determining the relevance of the segments, however it has some limits, and we do not know how labelling segments with dialogue acts may help us do so.
+
+Detecting the structure of a thread is a hot topic. 
+%
+As mentioned in Section~\ref{sec:intro}, very little works have been done on email segmentation. 
+We are aware of recent works in linear text segmentation such as \cite{kazantseva:2011} who addresses the problem by modelling the text as a graph of sentences and by performing clustering and/or cut methods. 
+%
+Due to the size of the messages (and consequently the available lexical material), it is not always possible to exploit this kind of method. However, our results tend to indicate that we should investigate in this direction nonetheless.
+%
+By detecting sub-units of information within the message, our work may complement the works of \cite{li:2011:threadlinking,kim:2010:taggingandlinking} who propose solutions for detecting links between messages. 
+% \texttt{in-reply-to} link
+We may extend these approaches by considering the possibility of pointing from/to multiple message sources/targets. % or determining more precisely the pointed area.
+
+Concerning the alignment process, our task can be compared to the detection of monolingual text derivation (otherwise called plagiarism, near–duplication, revision). \cite{poulard:2011:detecting} compare, for instance, the use of $n$–grams overlap with the use of text hapax. 
+In constrast, we already know that a text (the reply message) derives from another (the original message). Sentence alignment has also been a very active field of research 
+%both in monolingual (e.g. plagiarism detection) and multilingual  (e.g. 
+in statistical machine translation for building parallel corpora. %) domains. 
+%
+%In MT, 
+Some methods are based on sentence length comparison \cite{gale:1991}, some methods rely on the overlap of rare words (cognates and named entities) \cite{enright-kondrak:2007:ShortPapers}.
+%For detection of derivation links, \cite{poulard:2011:detecting} compare the use of n–grams overlap with the use of text specificities. % exploitation of the specificity and invariance of textual elements. 
+% between texts (otherwise called plagiarism, near–duplication, revision, etc.) at the document level. 
+%We evaluate the use of textual elements implementing the ideas of specificity and invariance as well as their combination to characterize derivatives. We built a French press corpus based on Wikinews 
+% revisions to run this evaluation. We obtain performances similar to the state of the art method 
+% (n–grams overlap) while reducing the signature size and so, the processing costs. In order ...
+In comparison, %to the speech recognition and translation use cases, 
+%our work is more an alignment task than a detection of derivation. In addition 
+in our task, despite some noise, the compared text includes large parts of material identical to the original text. 
+The kinds of edit operation in presence (no inversion\footnote{When computing the Levenshtein distance, the inversion edit operation is the most costly operation.} only deletion, insertion and substitution) lead us to consider the Levenshtein distance as a serious option.  
+
+% \url{http://www.statmt.org/survey/Topic/SentenceAlignment}
+% An influential early method is based on sentence length, measured in words (Brown et al., 1991; Gale and Church, 1991; Gale and Church, 1993) or characters
+% training models with parallel texts
+%Enright and Kondrak (2007) use a simple and fast method for document alignment that relies of overlap of rare but identically spelled words, which are mostly cognates, names, and numbers.
+

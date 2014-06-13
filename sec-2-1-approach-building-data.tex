@@ -1,0 +1,305 @@
+
+
+%------------------------------------------------------------------------------
+\section{Building annotated corpora of segmented online discussions at no cost}
+\label{sec:buildingannotatedcorpusofsegmentedonlinemessageatnocost}
+
+We present the assumptions and the detailed steps of our approach.
+
+%------------------------------------------------------------------------------
+\subsection{Annotation scheme}
+\label{sec:annotationscheme}
+
+
+The basic idea is to interpret the operation performed by a discussion participant on the message he replies as an annotation operation. 
+Assumptions about the kind of annotations depend on the operation that has been performed.
+Deletion or re-use of the original text material can give hints about the relevance of the content: discarded material is probably less relevant than re-used one.
+
+We assume that by replying inside a message and by only including some specific parts, the participant performs some cognitive operations to identify homogeneous self-contained text segments.
+% in the original message.
+%We assume that the quoted part consists in an homogeneous information unit 
+%with respect to the context from which they are extracted. 
+Consequently, we make some assumptions about the role played by the sentences in the original message information structure.
+%For instance, we can assume that the first sentence of a quoted part conveys instructions for opening a new discourse segment while the last sentence carries instructions for ending a segment.
+%Section~\ref{sec:annotationscheme} presents our annotation scheme in detail.
+%
+%We assume that a message can be split into %subsequent and
+% consecutive discourse segments, each of them conveying its own dialogue act.
+%We take the sentence as the elementary unit.
+%Consequently, each 
+A sentence in a segment plays one of the following roles: %\\
+%\indent $\bullet$ 
+\texttt{\footnotesize starting and ending} (\textit{SE}) a segment when there is only one sentence in the segment, %\\
+%\indent $\bullet$ 
+\texttt{\footnotesize starting} (\textit{S}) a segment if there are at least two sentences in the segment and it is the first one, %\\
+%\indent $\bullet$
+ \texttt{\footnotesize ending} (\textit{E}) a segment if there are at least two sentences in the segment and it is the last one, %\\
+%\indent $\bullet$ 
+\texttt{\footnotesize inside} (\textit{I}) a segment in any other cases.
+%
+%\begin{description}[itemsep=0mm]
+%\itemsep0em 
+%\item [ starting and ending] (\textit{SE}) a segment when there is only one sentence in the segment, 
+%\item [ starting] (\textit{S}) a segment if there are at least two sentences in the segment and the sentence is the first one, 
+%\item [ ending] (\textit{E}) a segment if there are at least two sentences in the segment and the sentence is the last one, 
+%\item [ inside] (\textit{I}) a segment in any other cases.
+%\end{description}
+
+
+%in terms of relevance or role in the discourse organisation can be expressed on the new content, on the quoted text or even on the text which is not reused in the reply message.
+
+%In this paper, we choose to assume that the sentences of the quoted text in a reply message can inform
+
+%The original message consists in an homogeneous discourse flow of utterances. 
+
+%By replying to a message and by extracting deliberately some parts\footnote{Summarization operations are also possible.}, the participant performs some cognitive operations leading to identify sufficient information to describe a context.
+
+% So the quoted text in a reply message is assumed to be sufficient. 
+
+% FIXME develop the idea
+
+% The objective is so to determine which parts of the reply messages are reused from the source message.
+
+
+
+%\begin{multicols}{2}
+
+%\end{multicols}
+%
+%As a matter of fact, 
+% [STARTEND] if the sentence of the source message is surrounded by insertions which are part of the reply message;
+%[START] else if the sentence of the source message is surrounded by insertions which are part of the reply message;
+%Par exemple, on pourra étiqueter de \texttt{TERMINE} la phrase précédent un segment repris et de \texttt{DEBUTE} la première phrase du segment repris. Ces phrases ainsi annotées dans leur contexte constitueront notre corpus d'entraînement.
+%
+Figure~\ref{fig:exampleSegmentationLabels} illustrates the scheme by showing how sentences from Figure~\ref{fig:exampleSourCeReplyMessage} can be aligned and the labels inferred from it. 
+%
+%This scheme 
+It is similar to the \textit{BIO} %annotation 
+scheme except it is not at the token level but at the sentence level \cite{ratinov:2009:conll}. % and not at the token level.
+
+
+
+%------------------------------------------------------------------------------
+\subsection{Annotation generation procedure}
+\label{}
+
+
+Before being able to predict labels of the original message sentences, it is necessary to identify those that are re-used in a reply message. 
+Identification of the quoted lines in a reply message is not sufficient for various reasons. 
+%
+First, the segmenter is intended to work on non-noisy data (i.e. the new content parts in the messages) while a quoted message is an altered version of the original one. 
+%Indeed the original message and the future quoted text suffer from multiple transformations. 
+% As a matter of fact, messages in a discussion are handled by several distinct email software clients which are not always standards-compliant and totally compatible.
+%The main problem comes from the ability to handle non ASCII characters.
+%One of these alterations results from encoding and decoding problems of the message content due to the fact that 
+Indeed, some email software clients involved in the discussion %handle the messages in a discussion 
+are not always standards-compliant and totally compatible\footnote{The \textit{Request for Comments} (RFC) are guidelines and protocols proposed by working groups involved in the Internet Standardization \url{https://tools.ietf.org/html}, the message contents suffer from encoding and decoding problems. Some of the RFC are dedicated to email format and encoding specifications (See RFC 2822 and 5335 as starting points). %The last 20 years, t
+There have been several propositions with updates and consequently obsoleted versions which may explain some alteration issues.}. 
+In particular, the quoted parts can be wrongly re-encoded at each exchange step due to the absence of dedicated header information. % about it.
+%So each of them can 
+In addition, the client programs can integrate their own mechanisms for quoting the previous messages when including them as well as for wrapping too long lines\footnote{
+%Feature for limiting the line length by splitting them into multiple pieces of no more than 80 characters and make the text readable without any horizontal scrolling.
+Feature for making the text readable without any horizontal scrolling by splitting lines into pieces of about 80 characters.}.
+%
+% Futhermore, because of some user preferences or systems configurations, a thread may embed and interleave various posting styles.  
+%
+% 
+%So, building a model on an altered version of the original message would create a bias in the approach.
+%
+Second, accessing the original message may allow taking some contextual features into consideration (like the visual layout for example). 
+%
+Third, to go further, the original context of the extracted text %in the original message
+ also conveys some segmentation information. For instance, a sentence from the original message, not present in the reply, but following an aligned sentence, can be considered as starting a segment.
+
+So in addition to identifying the quoted lines, we deploy an alignment procedure to get the original version of the quoted text. 
+In this paper, we do not consider the contextual features from the original message and focus only on sentences that have been aligned. 
+
+%While the form could be acceptable for some basic experiment, we decide to deploy an alignment procedure for various reasons: get the original form of the text which is quoted. 
+
+
+
+
+
+
+
+
+
+
+
+%\begin{figure}
+%\centering
+%\begin{minipage}{.5\textwidth}
+
+%\begin{description}
+%\item [ starting and ending] (\textit{SE}) a segment when there is only one sentence in the segment, 
+%\item [ starting] (\textit{S}) a segment if there are at least two sentences in the segment and the sentence is the first one, 
+%\item [ ending] (\textit{E}) a segment if there are at least two sentences in the segment and the sentence is the last one, 
+%\item [ inside] (\textit{I}) a segment in any other cases.
+%\end{description}
+%  \captionof{figure}{A figure}
+%  \label{fig:test1}
+%\end{minipage}%
+%\begin{minipage}{.5\textwidth}
+
+%%\begin{figure}[h!]
+%\small\centering
+%\begin{tabular}{*{2}{|l}|c|}
+%\toprule
+%\textbf{Source} & \textbf{Reply} & \textbf{Label}\\
+%	\midrule
+%S1  & & \\
+%    & R1 & \\
+%\textit{S2}  & > \textit{R2}& \texttt{Start}\\
+%\textit{S3}  & > \textit{R3}& \texttt{Inside}\\
+%\textit{S4}  & > \textit{R4}& \texttt{End}\\
+%    & R5 & \\
+%    & R6 & \\
+%    & R7 & \\
+%    & R8 & \\
+%\textit{S5}  & > \textit{R9} & \texttt{Start\&End}\\
+%    & R10 & \\
+%%    & R11 & \\
+%    & [...] & \\
+%S7    &  & \\ \ 
+%[...] \    &  & \\
+%	\bottomrule
+%\end{tabular}
+
+%  \captionof{figure}{Sentences alignment of the source and the reply messages from the Figure~\ref{fig:exampleSourCeReplyMessage}. Examples of segmentation labels which can be inferred from the text re-use of the source message and associated to the source sentences.}
+%\label{fig:exampleSegmentationLabels}
+%\end{minipage}
+%\end{figure}
+
+
+
+The generation procedure is intended to "automatically" annotate sentences from the original messages with segmentation information.
+%Figure~\ref{fig:procedureTrainingDataGeneration} describes the steps of the generation procedure at the global level. 
+The procedure follows the following steps:
+%\begin{figure}[ht!]
+%%\begin{enumerate}
+%%\item List the source and the reply messages
+%%\item 
+%\fbox {
+%    \parbox{\linewidth}{
+\begin{enumerate}[itemsep=0mm]
+%\itemsep0em 
+\item Messages posted in the interleaved replying style are identified
+\item For each pair of original and reply messages:
+\begin{enumerate}
+\item Both messages are tokenized at sentence and at word levels
+\item Quoted lines in the reply message are identified
+\item Sentences which are part of the quoted text in the reply message are identified 
+\item Sentences in the original message are aligned with  quoted text in the reply message \footnote{Section~\ref{secalignmentmodule} details how alignment is performed.}
+%\item For each aligned sentence 
+%\begin{enumerate}
+\item Aligned original sentences are labelled in terms of position in segment %(See~Figure~\ref{fig:algoLabellingEachAlignedSentence})
+%\end{enumerate}
+\item The sequence of labelled sentences is added to the training data %The sequence of labelled sentences makes up a labelled message which is add to the training data 
+\end{enumerate}
+\end{enumerate}
+%}}
+%\caption{Procedure for generating the training data}
+%\label{fig:procedureTrainingDataGeneration}
+%\end{figure}
+
+% Each message from our corpus are tokenized and the sentences split. 
+%
+Messages with \textit{inline replying} are recognized thanks to the presence of at least two consecutive quoted lines separated by new content lines. 
+Pairs of original and reply messages are constituted based on the \texttt{\footnotesize in-reply-to} field present in the email headers.
+%The \textit{quoted lines} %in the reply messages 
+% are identified based on the presence of a specific prefix at the beginning of the lines. 
+ As declared in the RFC~3676\footnote{\url{http://www.ietf.org/rfc/rfc3676.txt}}, we consider as \textit{quoted lines}, the lines %of a message
+ beginning with %to be quoted if the first character is 
+ the "\texttt{>}" (greater than) sign.
+Lines which are not quoted lines are considered to be \textit{new content} lines.
+The word tokens are used to index the quoted lines and the sentences. 
+
+
+Labelling of aligned sentence (sentence from the original message re-used in the reply message) uses this simple rule-based algorithm:
+%Figure~\ref{fig:algoLabellingEachAlignedSentence} gives some precisions about the algorithm for labelling each aligned sentence with a segmentation instruction. 
+%\begin{lstlisting}
+%For each aligned source sentence (sentence from the source message re-used in the reply message)
+%  if the sentence is surrounded by new content in the reply message, then label it Start&End
+%  else if the sentence is preceded by a new content, then label it Start
+%    else if the sentence is followed by a new content, then label it End
+%      else label it Inside
+%\end{lstlisting}
+
+%\begin{figure}[ht!]
+%%\fbox{
+%%\begin{enumerate}
+%%\item 
+%\fbox {
+%    \parbox{\linewidth}{
+\begin{itemize}
+\item[] For each aligned original sentence: \vspace{-0.2cm}
+\begin{itemize}
+\item[] if the sentence is surrounded by new content in the reply message, the label is \texttt{\footnotesize Start\&End}
+\item[] else if the sentence is preceded by a new content, the label is \texttt{\footnotesize Start}
+\item[] \indent else if the sentence is followed by a new content, the label is \texttt{\footnotesize End}
+\item[] else, the label is \texttt{\footnotesize Inside}
+\end{itemize}
+\end{itemize}
+%    }
+%}
+
+%%}
+%%\end{enumerate}
+%\caption{Algorithm for labelling each aligned sentence with a segmentation instruction}
+%\label{fig:algoLabellingEachAlignedSentence}
+%\end{figure}
+% We assume there is no deletion of original text between two consecutive quoted parts. 
+
+
+
+%------------------------------------------------------------------------------
+\subsection{Alignment module}
+\label{secalignmentmodule}
+
+
+
+For finding alignments between two given text messages, we use 
+%an implementation of the % Implements a portion of the
+% NIST align/scoring 
+%algorithm to compare a reference string to a hypothesis string. 
+a \textit{dynamic programming (DP) string alignment algorithm} \cite{sankoff:1983}. 
+In the context of speech recognition, the algorithm is also known as the \textit{NIST align/scoring algorithm}. Indeed, it is widely used to evaluate the output of speech recognition systems by comparing the hypothesized text %(HYP) 
+output by the speech recognizer to the correct, or reference % (REF) 
+text. 
+%In particular, it is used to compute the word error rate (WER) and the sentence error rate (SER).
+%
+The %``DP string alignment 
+algorithm works by ``performing a global minimization of a Levenshtein distance function which weights the cost of correct words, insertions, deletions and substitutions as 0, 75, 75 and 100 respectively.
+%
+The computational complexity of DP is $O(MN)$.''
+%    final static int MAX_PENALTY = 1000000;
+%    final static int SUBSTITUTION_PENALTY = 100;
+%    final static int INSERTION_PENALTY = 75;
+%    final static int DELETION_PENALTY = 75;
+%The alignment and metrics are intended to be, by default, identical to those of the \url{http://www.icsi.berkeley.edu/Speech/docs/sctk-1.2/sclite.htm} NIST SCLITE tool.  
+%The program sclite is a tool for scoring and evaluating the output of speech recognition systems. Sclite is part of the NIST SCTK Scoring Tookit. The program compares the hypothesized text (HYP) output by the speech recognizer to the correct, or reference (REF) text. After comparing REF to HYP, (a process called alignment), statistics are gathered during the scoring process and a variety of reports can be produced to summarize the performance of the recognition system.
+%\url{http://www1.icsi.berkeley.edu/Speech/docs/sctk-1.2/sclite.htm}
+
+
+
+%CMU Sphinx
+%Open Source Toolkit For Speech Recognition
+%Project by Carnegie Mellon University
+% of the performance of a speech recognition or machine translation system.
+
+
+
+The Carnegie Mellon University provides an implementation of the algorithm in its speech recognition toolkit\footnote{Sphinx 4 \texttt{edu.cmu.sphinx.util.NISTAlign} %source code.
+\url{http://cmusphinx.sourceforge.net}}.
+%Implements a portion of the NIST align/scoring algorithm to compare a reference string to a hypothesis string.  It only keeps track of substitutions, insertions, and deletions.
+We use an adaptation of it which allows working on lists of strings\footnote{\url{https://github.com/romanows/WordSequenceAligner}} rather than directly on strings (as sequences of characters).
+
+
+%and other statistics available from an alignment of a hypothesis string and a reference string.
+
+
+
+
+
+
+

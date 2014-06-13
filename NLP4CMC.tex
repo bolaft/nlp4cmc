@@ -1,0 +1,125 @@
+%
+% File konvens2014.tex
+%
+% This file is identical to the file konvens2012.tex 
+% which was provided by  Jeremy Jancsary, <jeremy.jancsary@ofai.at>
+% We have renamed it only so it is clear to authors who submit to 
+% Konvens 2014 that they are using the right version.
+%
+% Contact: konvens2014@uni-hildesheim.de
+%%
+%% Based on the style files for ACL2008 by Joakim Nivre and Noah Smith
+%% and that of ACL2010 by Jing-Shin Chang and Philipp Koehn
+%% and that of ACL2012 by Maggie Lie and Michael White.
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{konvens2014}
+\usepackage[pass]{geometry}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{url}
+
+\usepackage{bm}
+\usepackage{todonotes}
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{array}
+
+% subfigure
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Package pour les tableaux 
+\usepackage{booktabs}
+
+% plusieurs colonnes et modification de leur taille dans les tables
+%\usepackage{multirow}
+
+%\usepackage{setspace}
+\usepackage{listings}
+\lstset{ %
+  basicstyle=\footnotesize
+}
+
+
+%\usepackage{rst}
+\usepackage{multicol}
+
+\usepackage{enumitem}
+
+
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\setlength\titlebox{6.5cm}    % Expanding the titlebox
+
+\title{Exploiting the human computational effort dedicated to message reply formatting for training discursive email segmenters} %Act of speech boundary detection in email corpora
+
+
+\author{First Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \url{email@domain} \\\And
+  Second Author \\
+  Affiliation / Address line 1 \\
+  Affiliation / Address line 2 \\
+  Affiliation / Address line 3 \\
+  \url{email@domain} \\}
+
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+In the context of multi-domain and multimodal online asynchronous discussion analysis, we propose an innovative strategy for manual annotation of dialog act (DA) segments. The process aims at supporting the analysis of messages in terms of DA.
+Our objective is to train a sequence labelling system to detect the segment boundaries. %; i.e. to classify if a given sentence starts, ends or continues a segment.
+The originality of the proposed approach is to avoid manually annotating the training data and instead exploit the human computational efforts dedicated to message reply formatting %; in particular 
+when the writer replies to a message by inserting his response just after the quoted text appropriate to his intervention.
+%
+We describe the approach, propose a new electronic mail corpus %to the community 
+and report the evaluation of segmentation models we built.
+\end{abstract}
+
+
+% -----------------------------------------------------------------------------
+% INTRODUCTION
+\input{sec-1-introduction.tex}
+
+
+% -----------------------------------------------------------------------------
+% APPROACH
+\input{sec-2-1-approach-building-data.tex}
+
+\input{sec-2-2-approach-segmenting.tex}
+
+% -----------------------------------------------------------------------------
+% METHODOLOGY
+\input{sec-3-methodology.tex}
+
+% -----------------------------------------------------------------------------
+% RESULT
+\input{sec-4-result.tex}
+
+% -----------------------------------------------------------------------------
+% RELATED WORK
+\input{sec-5-related-work.tex}
+
+% -----------------------------------------------------------------------------
+% FUTURE WORK
+\input{sec-6-future-work.tex}
+%\section*{Acknowledgments}
+
+%Do not number the acknowledgment section. Do not include this section when submitting your paper for review.
+
+
+
+% include your own bib file like this:
+\bibliographystyle{konvens2014}
+\bibliography{refs}
+
+
+\end{document}

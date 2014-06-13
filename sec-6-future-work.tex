@@ -1,0 +1,40 @@
+
+
+%------------------------------------------------------------------------------
+\section{Future work}
+\label{sec:futureWork}
+
+The main contribution of this work is to exploit the human effort dedicated to reply formatting for training discursive email segmenters. 
+We have implemented and tested various segmenter models. 
+There is still room for improvement, but our results indicate that the approach merits more thorough examination.
+%
+Our segmentation approach remains relatively simple and can be easily extended. One way would be to consider contextual features in order to characterize the sentences in the original message structure.
+%
+As future works, we plan to complete our current experiments with two new approaches for evaluation. The first one will consists in comparing the automatic segmentation with those performed by human annotators.
+This task remains tedious since it will then be necessary to define an annotation protocol, write guidelines and build other resources.
+The second evaluation we plan to perform is an extrinsic evaluation. The idea will be to measure the contribution of the segmentation in the process of detecting the dialogue acts, i.e. to check if existing sentence-level classification systems would perform better with such contextual information. % at segment-level.
+
+%TODO
+%\begin{itemize}
+%\item NH finish the state-of-the-art, find a new example and handle/describe the example and our idea
+%\item baseline start at each new sentence
+%\item segmentation de choi as feature
+%\item feature n-grams : only most frequent unigrams
+%\item feature as individual sets: graphic+orthographic~stylistic, semantic
+%\item feature contextual: empty lines before/after ; line position, lexical similarity before/after sentence
+%\item combination of the individual decision of the segmenters
+%\item alternatives of ubuntus allows us to build models for many languages at low cost
+%\item alignements et étiquetage sur les mots
+%\item évaluation par rapport à annotation manuelle
+%\item évaluation de apport par rapport à reconnaissance automatique des DA 
+%\item un exemple de segmentation que l'on souhaite
+%\item aligner seulement les quoted lines et non tout le contenu du reply
+%\item travailler la tokenization des emails
+%\item Focus on the first message of a thread and its reply messages to avoid noisy data due to several levels of quoted lines.
+%\item Restrict on short messages as an heuristic to filter out the long code trace message
+%\item Due to alignment complexity focus only on the first 25 000 tokens.
+%\item In source message, focus on part which is new ; in reply message, focus on part which is new + only the first? quoted level 
+%\item The classifiers are based on common features for discourse analysis \cite{joty:2013:acl}.
+%\item why processing thread is difficult: Futhermore, because of some user preferences or systems configurations, a thread may embed and interleave various posting styles.  ...
+ 
+%\end{itemize}
