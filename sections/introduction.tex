@@ -1,0 +1,145 @@
+
+\section{Introduction}
+\label{sec:introduction}
+
+Automatic processing of online conversations (forum, emails) is a highly important issue for industrial and scientific communities interested in improving existing question/answering systems, identify emotions or intentions in customer requests or reviews, detect messages containing requests for action, identify unsolved problems etc.
+
+% In most works, conversation interactions between the participants are modeled in terms of dialogue acts (DA) \cite{austin:1970}. 
+%
+% The DAs describe the communicative function conveyed by each text utterance  (e.g.~question, answer, greeting,\ldots).
+%
+In this paper, we address the problem of segmenting messages in online asynchronous discussions. 
+% The process aims at supporting the analysis of messages in terms of DA.
+%
+We pay special attention to the processing of electronic mails.
+
+% The main trend in automatic DA recognition consists in using supervised learning algorithms to predict the DA conveyed by a sentence or a message \cite{joty:2013:sigdial}.
+%
+% The hypothesized message segmentation results from the global analysis of these individual predictions over each sentence.
+%
+% A first remark on this paradigm is that it is not realistic to use in the context of multi-domain and multimodal processing because it requires the building of training data which is a very substantial and time-consuming task.
+%
+% A second remark is that the model does not have a fine-grained representation of the message structure or the relations between messages. Considering such characteristics could drastically improve the systems to allow to focus on specific text parts or to filter out less relevant ones.
+%
+% Indeed, apart from the closing formula, a message may for example be made of several distinct information requests, the description of an unsuccessful procedure, the quote of third-party messages\ldots
+%
+So far, a few works address the problem of message segmentation.
+%
+\cite{lampert:2009:emnlp} propose to segment emails in prototypical zones such as the author's contribution, quotes of original messages, the signature, the opening and closing formulas. 
+%
+In comparison, we focus on the segmentation of the author's contribution (what we call the new content part).
+%
+\cite{joty:2013:jair} identifies clusters of topically related sentences through the multiple messages of a thread, without distinguishing email and forum messages. Our problem differs because we are only interested in the cohesion between sentences in nearby fragments and not on distant sentences.
+
+% Despite the drawbacks mentioned above, a supervised approach remains the most efficient and reliable method to solve classification problems in Natural Language Processing. 
+%
+% Our aim is to train a system to detect the segment boundaries, i.e. to determine, through a classification approach, if a given sentence starts, ends or continues a segment.
+
+\begin{figure}[h]
+    \begin{minipage}{.57\textwidth}
+        \fbox {
+            \parbox{\linewidth}{
+                \begin{subfigure}[b]{0.9\textwidth}
+                    \small
+                    [Hi!]$^{S1}$\vspace{0.1cm}
+
+                    [I got my ubuntu cds today and i'm really impressed.]$^{S2}$ [My friends like them and my teachers too (i'm a student).]$^{S3}$ [It's really funny to see, how people like ubuntu and start feeling geek and blaming microsoft \\ \
+                    when they use it.]$^{S4}$ \vspace{0.1cm}
+
+                    [Unfortunately everyone wants an ubuntu cd, so can i download the cd covers anywhere or an 'official \\ \
+                    document' which i can attach to self-burned cds?]$^{S5}$\vspace{0.1cm}
+
+                    [I searched the entire web site but found nothing.]$^{S6}$ [Thanks in advance.]$^{S7}$\vspace{0.1cm}
+
+                    [John]$^{S8}$
+
+                    \caption{Original message.}
+                    \label{fig:exampleSource}
+                \end{subfigure}%
+            }
+        }
+        \vspace{0.2cm}
+        \\
+        \fbox {
+            \parbox{\linewidth}{
+                \begin{subfigure}[b]{0.9\textwidth}
+                    \small
+                    [On Sun, 04 Dec 2005, John Doe 
+                    <john@doe.com> wrote:]$^{R1}$\vspace{0.1cm}
+
+                    \textgreater [I got my ubuntu cds today and i'm really impressed.]$^{R2}$ \\ \ 
+                    \textgreater [My friends like them and my teachers too (i'm a \\ \ 
+                    \textgreater student).]$^{R3}$ [It's really funny to see, how people like \\ \ 
+                    \textgreater ubuntu and start feeling geek and blaming microsoft  \\ \ 
+                    \textgreater when they use it.]$^{R4}$\vspace{0.1cm}
+
+                    [Rock!]$^{R5}$\vspace{0.1cm}
+
+                    \textgreater [Unfortunately everyone wants an ubuntu cd, so can i \\ \ 
+                    \textgreater download the cd covers anywhere or an 'official \\ \ 
+                    \textgreater document' which i can attach to self-burned cds?]$^{R6}$\vspace{0.1cm}
+
+                    [We don't have any for the warty release, but we will have them for hoary, %\\ \ 
+                    because quite a few people have asked. :-)]$^{R7}$\vspace{0.1cm}
+
+                    [Bob.]$^{R8}$ %\vspace{0.1cm}
+
+                    \caption{Reply message.}
+                    \label{fig:exampleReply}
+                \end{subfigure}
+            }
+        }
+
+        \caption{An original message and its reply (\textit{ubuntu-users} email archive). Sentences have been tagged to facilitate the discussion.}
+        \label{fig:exampleSourCeReplyMessage}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.57\textwidth}
+        \small\centering
+        \begin{tabular}{*{2}{|l}|c|}
+        \toprule
+        \textbf{Original} & \textbf{Reply} & \textbf{Label}\\
+        	\midrule
+            S1  & & \\
+            & R1 & \\
+            \textit{S2}  & > \textit{R2}& \texttt{Start}\\
+            \textit{S3}  & > \textit{R3}& \texttt{Inside}\\
+            \textit{S4}  & > \textit{R4}& \texttt{End}\\
+            & R5 & \\
+            \textit{S5}  & > \textit{R6} & \texttt{Start\&End}\\
+            & R7 & \\
+            & [...] & \\
+            S6    &  & \\ \ 
+            [...] \    &  & \\
+        	\bottomrule
+        \end{tabular}
+        \caption{Alignment of the sentences from the original and reply messages shown in Figure~\ref{fig:exampleSourCeReplyMessage} and labels inferred from the re-use of the original message text. Labels are associated to the original sentences.}
+        \label{fig:exampleSegmentationLabels}
+    \end{minipage}
+\end{figure}
+
+% The originality of the proposed approach is to avoid manually annotating the training data and instead to exploit the human computational efforts dedicated to a similar task in a different context of production~\cite{ahn:2006:computer}. 
+The originality of the proposed approach is to exploit the human computational efforts dedicated to a similar task in a different context of production~\cite{ahn:2006:computer}. 
+
+As recommended by the \textit{Netiquette}\footnote{Set of guidelines for Network Etiquette (\textit{Netiquette}) when using network communication or information services RFC1855.}, when replying to a message (email or forum post), the writer should ``summarize the original message at the top of its reply, or include (or \"quote\") just enough text of the original to give a context, in order to make sure readers understand when they start to read the response\footnote{It is true that some email software clients do not conform to the recommendations of Netiquette and that some online participants are less sensitive to arguments about posting style (many writers reply above  the original message). We assume that there are enough messages with inline replying available to build our training data.}.''  As a corollary, the writer should ``edit out all the irrelevant material.''
+%
+Our idea is to use this effort, in particular when the writer replies to a message by inserting his response or comment just after the quoted text appropriate to his intervention. 
+%
+This posting style is called \textit{interleaved} or \textit{inline replying}.
+%
+% The so built segmentation model should be usable for any posting styles by applying it only on new content parts.
+
+Figure~\ref{fig:exampleSource} shows an example of an \textit{original} message and, Figure~\ref{fig:exampleReply}, one of its \textit{reply}.
+%
+We can see that the reply message re-uses only four selected sentences from the original message; namely $S2$, $S3$, $S4$ and $S5$ which respectively correspond to sentences  $R2$, $R3$, $R4$ and $R6$ in the reply message.
+%
+The author of the reply message deliberately discarded the remaining of the original message.
+%
+% The segment composed of sentences $S2$, $S3$, $S4$ and the one by the single sentence $S5$ can respectively be associated with two acts : a comment and a question.
+We postulate that these informations can be used to hypothesize the presence of boundaries in the original message. 
+
+In Section~\ref{sec:approach}, we explain our approach for identifying boundaries from pairs of source and reply messages.
+%
+After presenting our experimental framework in Section~\ref{sec:experimental_framework}, we report some evaluations for the segmentation task in Section~\ref{sec:results}.
+%
+Finally, we discuss our approach in comparison to other works in Section~\ref{sec:related_work}.

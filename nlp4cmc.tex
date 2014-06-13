@@ -1,0 +1,89 @@
+%
+% File konvens2014.tex
+%
+% This file is identical to the file konvens2012.tex 
+% which was provided by  Jeremy Jancsary, <jeremy.jancsary@ofai.at>
+% We have renamed it only so it is clear to authors who submit to 
+% Konvens 2014 that they are using the right version.
+%
+% Contact: konvens2014@uni-hildesheim.de
+%%
+%% Based on the style files for ACL2008 by Joakim Nivre and Noah Smith
+%% and that of ACL2010 by Jing-Shin Chang and Philipp Koehn
+%% and that of ACL2012 by Maggie Lie and Michael White.
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{konvens2014}
+\usepackage[pass]{geometry}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{bm}
+\usepackage{todonotes}
+\usepackage{csquotes}
+\usepackage{float}
+\usepackage{array}
+
+% subfigure
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Package pour les tableaux 
+\usepackage{booktabs}
+
+% plusieurs colonnes et modification de leur taille dans les tables
+%\usepackage{multirow}
+
+%\usepackage{setspace}
+\usepackage{listings}
+\lstset{ %
+  basicstyle=\footnotesize
+}
+
+%\usepackage{rst}
+\usepackage{multicol}
+\usepackage{enumitem}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\setlength\titlebox{6.5cm}    % Expanding the titlebox
+
+\title{Exploiting the human computational effort dedicated to message reply formatting for email segmentation}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+In the context of multi-domain and multi-modal online asynchronous discussion analysis, we propose an innovative strategy for the segmentation of email messages into meaningful fragments. The originality of the proposed approach lies in its exploitation of the human computational efforts dedicated to message reply formatting to identify text boundaries in email corpora. We describe the approach, propose a new electronic mail corpus and report the comparison of the system to several existing segmenters.
+\end{abstract}
+
+% INTRODUCTION
+\input{sections/introduction.tex}
+
+% APPROACH
+\input{sections/approach.tex}
+
+% METHODOLOGY
+\input{sections/experimental_framework.tex}
+
+% RESULT
+\input{sections/results.tex}
+
+% RELATED WORK
+\input{sections/related_work.tex}
+
+% FUTURE WORK
+\input{sections/future_work.tex}
+%\section*{Acknowledgments}
+
+%Do not number the acknowledgment section. Do not include this section when submitting your paper for review.
+
+\bibliographystyle{konvens2014}
+\bibliography{refs}
+
+\end{document}
