@@ -1,3 +1,69 @@
 
 \section{Experimental Framework}
 \label{sec:experimental_framework}
+
+We describe the data, the preprocessing and the evaluation protocol we use for our experiments.
+
+\subsection{Corpus}
+
+The current work takes place in a project dealing with multilingual and multimodal discussion processing, mainly in interrogative technical domains.
+
+For these reasons we did not consider the Enron Corpus (30,000 threads) \cite{klimt:2004:enron} (which is from a corporate environment), neither the W3C Corpus (despite its technical consistence) or its subset, the British Columbia Conversation Corpus (BC3) \cite{ulrich:2008:bc3}.
+
+We rather use the \textit{ubuntu-users} email archive\footnote{Ubuntu mailing lists archives (See \textit{ubuntu-users}): \url{https://lists.ubuntu.com/archives/}} as our primary corpus. It offers a number of advantages. It is free, and distributed under an unrestrictive license. It increases continuously, and therefore is representative of modern emailing in both content and formatting. Additionally, many alternatives archives are available, in a number of different languages, including some very resource-poor languages. Ubuntu also offers a forum and a FAQ which are interesting in the context of multimodal studies. 
+
+We use a copy of December 2013.
+
+The corpus contains a total of 272,380 messages (47,044 threads). 33,915 of them are posted in the inline replying style that we are interested in. These messages are made of 418,858 sentences, themselves constituted of 76,326 unique tokens (5,139,123 total). 87,950 of these lines (21\%) are automatically labelled by our system as the start of a new segment (either \textit{SE} or \textit{S}).
+
+\subsection{Evaluation protocol}
+
+In order to evaluate the efficiency of the segmentation, we compare its performance to several baselines. 
+
+The first one, the ``regular'' baseline, is computed by segmenting the test set into regular segments of the same length as the average training set segment length, rounded up. The second one is the TextTiling algorithm we described in section~\ref{sec:buildingTheSegmenter}.
+While it is used as a feature in the proposed approach in the previous section, the direct output of the TextTiling algorithm is used for the baseline.
+
+
+The results are measured with a panel of metrics used in text segmentation and Information Retrieval (IR).
+% -----------------------------------------------------------------------------
+%\subsubsection{Metrics}
+%
+%Traditional
+%Information retrieval metrics of 
+Precision ($P$) and Recall ($R$) are provided for all results. $P$ is the percentage of boundaries identified by the classifier that are indeed true boundaries. $R$ is the percentage of true boundaries that are identified by the classifier. 
+% We also provide the $F_1$ score which represents the harmonic mean of precision and recall:
+We also provide the harmonic mean of precision and recall:
+%\[
+$  F_1 = 2 \cdot \frac{P \cdot R}{P + R}$
+%\]
+
+However, automatic evaluation of speech segmentation through these metrics is problematic as predicted segment boundaries seldom align precisely. 
+%Moreover, while a segmenter that places boundaries near actual boundary positions is in almost all cases more suited to the task than one that misses by a much larger margin, precision and recall metrics would penalize both to the same extent. 
+Therefore, %in order to evaluate varying degrees of success or failure in a more subtle manner,
+ we also provide an array of metrics relevant to the field of text segmentation : ${P_{k}}$, \textit{WindowDiff} and the \textit{Generalized Hamming Distance (GHD)}.
+%$\bm{P_{k}}$,
+%
+The ${P_{k}}$ metric is a probabilistically motivated error metric for the assessment of segmentation algorithms \cite{beeferman1999statistical}.
+%
+\textit{WindowDiff} compares the number of segment boundaries found within a fixed-sized window to the number of boundaries found in the same window of text for the reference segmentation \cite{pevzner2002critique}.
+%
+The \textit{GHD} is an extension of the Hamming distance\footnote{Wikipedia article on the Hamming distance: \url{http://en.wikipedia.org/wiki/Hamming_distance}} that gives partial credit for near misses \cite{bookstein2002generalized}.
+% -----------------------------------------------------------------------------
+%\subsubsection{Baselines}
+
+
+% -----------------------------------------------------------------------------
+\subsection{Preprocessing}
+
+To reduce noise in the corpus we filter out undesirable emails based on several criteria, the first of which is encoding. Messages that are not UTF-8 encoded are removed from the selection. The second criterion is MIME type: we keep single-part plain text messages only, and remove those with HTML or other special contents.
+%
+In addition, we choose to consider only replies to thread starters. This choice is based on the assumption that the alignment module would have more difficulty in recognizing properly sentences that were repeatedly transformed in successive replies. Indeed, these replies - that would contain quoted text from other messages - would be more likely to be poorly labelled through automatic annotation.
+%
+The last criterion % for message selection
+ is length. The dataset being built from a mailing list that can cover very technical discussions, users sometimes send very lengthy messages containing many lines of copied-and-pasted code, software logs, bash command outputs, etc. The number of these messages is marginal, but their lengths being disproportionately high, they can have a negative impact on the segmenter's performance. We therefore exclude messages longer than the average message length plus the standard length deviation.
+%
+After filtering, the dataset is left with 6,821 messages out of 33,915 (20\%).
+
+For building the segmenter features, we use the Stanford %Log-linear
+ Part-Of-Speech Tagger for morpho-syntactic tagging \cite{toutanova2003feature}, and the WordNet lexical database for lemmatization \cite{miller1995wordnet}.
+

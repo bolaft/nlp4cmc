@@ -35,19 +35,19 @@ In comparison, we focus on the segmentation of the author's contribution (what w
 %
 % Our aim is to train a system to detect the segment boundaries, i.e. to determine, through a classification approach, if a given sentence starts, ends or continues a segment.
 
-\begin{figure}[h]
-    \begin{minipage}{.57\textwidth}
+\begin{figure}
+    \begin{minipage}{.46\textwidth}
         \fbox {
             \parbox{\linewidth}{
-                \begin{subfigure}[b]{0.9\textwidth}
+                \begin{subfigure}[b]{0.99\textwidth}
                     \small
                     [Hi!]$^{S1}$\vspace{0.1cm}
 
-                    [I got my ubuntu cds today and i'm really impressed.]$^{S2}$ [My friends like them and my teachers too (i'm a student).]$^{S3}$ [It's really funny to see, how people like ubuntu and start feeling geek and blaming microsoft \\ \
-                    when they use it.]$^{S4}$ \vspace{0.1cm}
+                    [I got my ubuntu cds today and i'm really impressed.]$^{S2}$ [My friends like them and my \\ \
+                    teachers too (i'm a student).]$^{S3}$ [It's really funny to see, how people like ubuntu and start feeling geek and blaming microsoft when they use it.]$^{S4}$ \vspace{0.1cm}
 
-                    [Unfortunately everyone wants an ubuntu cd, so can i download the cd covers anywhere or an 'official \\ \
-                    document' which i can attach to self-burned cds?]$^{S5}$\vspace{0.1cm}
+                    [Unfortunately everyone wants an ubuntu cd, so can i download the cd covers anywhere or an \\ \
+                    'official document' which i can attach to self-burned cds?]$^{S5}$\vspace{0.1cm}
 
                     [I searched the entire web site but found nothing.]$^{S6}$ [Thanks in advance.]$^{S7}$\vspace{0.1cm}
 
@@ -62,22 +62,24 @@ In comparison, we focus on the segmentation of the author's contribution (what w
         \\
         \fbox {
             \parbox{\linewidth}{
-                \begin{subfigure}[b]{0.9\textwidth}
+                \begin{subfigure}[b]{0.99\textwidth}
                     \small
                     [On Sun, 04 Dec 2005, John Doe 
                     <john@doe.com> wrote:]$^{R1}$\vspace{0.1cm}
 
-                    \textgreater [I got my ubuntu cds today and i'm really impressed.]$^{R2}$ \\ \ 
-                    \textgreater [My friends like them and my teachers too (i'm a \\ \ 
-                    \textgreater student).]$^{R3}$ [It's really funny to see, how people like \\ \ 
-                    \textgreater ubuntu and start feeling geek and blaming microsoft  \\ \ 
-                    \textgreater when they use it.]$^{R4}$\vspace{0.1cm}
+                    \textgreater [I got my ubuntu cds today and i'm really \\ \ 
+                    \textgreater impressed.]$^{R2}$ [My friends like them and my \\ \
+                    \textgreater teachers too (i'm a student).]$^{R3}$ \\ \ 
+                    \textgreater [It's really funny to see, how people like \\ \ 
+                    \textgreater ubuntu and start feeling geek and blaming \\ \ 
+                    \textgreater microsoft when they use it.]$^{R4}$\vspace{0.1cm}
 
                     [Rock!]$^{R5}$\vspace{0.1cm}
 
-                    \textgreater [Unfortunately everyone wants an ubuntu cd, so can i \\ \ 
-                    \textgreater download the cd covers anywhere or an 'official \\ \ 
-                    \textgreater document' which i can attach to self-burned cds?]$^{R6}$\vspace{0.1cm}
+                    \textgreater [Unfortunately everyone wants an ubuntu cd, so \\ \ 
+                    \textgreater can i download the cd covers anywhere or an \\ \ 
+                    \textgreater 'official document' which i can attach to self- \\ \ 
+                    \textgreater burned cds?]$^{R6}$\vspace{0.1cm}
 
                     [We don't have any for the warty release, but we will have them for hoary, %\\ \ 
                     because quite a few people have asked. :-)]$^{R7}$\vspace{0.1cm}
@@ -91,10 +93,10 @@ In comparison, we focus on the segmentation of the author's contribution (what w
         }
 
         \caption{An original message and its reply (\textit{ubuntu-users} email archive). Sentences have been tagged to facilitate the discussion.}
-        \label{fig:exampleSourCeReplyMessage}
+        \label{fig:exampleSourceReplyMessage}
     \end{minipage}
     \hfill
-    \begin{minipage}{.57\textwidth}
+    \begin{minipage}{.46\textwidth}
         \small\centering
         \begin{tabular}{*{2}{|l}|c|}
         \toprule
@@ -102,18 +104,18 @@ In comparison, we focus on the segmentation of the author's contribution (what w
         	\midrule
             S1  & & \\
             & R1 & \\
-            \textit{S2}  & > \textit{R2}& \texttt{Start}\\
-            \textit{S3}  & > \textit{R3}& \texttt{Inside}\\
-            \textit{S4}  & > \textit{R4}& \texttt{End}\\
+            \textit{S2}  & \textgreater \textit{R2}& \texttt{Start}\\
+            \textit{S3}  & \textgreater \textit{R3}& \texttt{Inside}\\
+            \textit{S4}  & \textgreater \textit{R4}& \texttt{End}\\
             & R5 & \\
-            \textit{S5}  & > \textit{R6} & \texttt{Start\&End}\\
+            \textit{S5}  & \textgreater \textit{R6} & \texttt{Start\&End}\\
             & R7 & \\
             & [...] & \\
             S6    &  & \\ \ 
             [...] \    &  & \\
         	\bottomrule
         \end{tabular}
-        \caption{Alignment of the sentences from the original and reply messages shown in Figure~\ref{fig:exampleSourCeReplyMessage} and labels inferred from the re-use of the original message text. Labels are associated to the original sentences.}
+        \caption{Alignment of the sentences from the original and reply messages shown in Figure~\ref{fig:exampleSourceReplyMessage} and labels inferred from the re-use of the original message text. Labels are associated to the original sentences.}
         \label{fig:exampleSegmentationLabels}
     \end{minipage}
 \end{figure}
